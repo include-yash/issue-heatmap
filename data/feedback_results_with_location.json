@@ -341,6 +341,17 @@
             "category": "Public Safety"
         },
         {
+            "text": "testing here, people are terrified!",
+            "user": "@adil_mirsti",
+            "location": "Pahalgam, Jammu and Kashmir",
+            "latitude": 34.0110,
+            "longitude": 75.3100,
+            "timestamp": "2025-04-26 15:00:00",
+            "sentiment": "Negative",
+            "emotion": "fear",
+            "category": "Public Safety"
+        },
+        {
             "text": "Increased violence near Anantnag after Pahalgam attack, locals fear for their lives.",
             "user": "@sana_bhat",
             "location": "Anantnag, Jammu and Kashmir",
@@ -394,6 +405,237 @@
             "sentiment": "Negative",
             "emotion": "sadness",
             "category": "Public Safety"
+        },
+        {
+            "text": "Potholes on MG Road are dangerous for commuters!",
+            "user": "@amit_sharma",
+            "location": "Bangalore, Karnataka",
+            "latitude": 12.9716,
+            "longitude": 77.5946,
+            "timestamp": "2025-04-25 09:30:00",
+            "sentiment": "Negative",
+            "emotion": "anger",
+            "category": "Infrastructure"
+        },
+        {
+            "text": "New hospital in South Delhi is a game-changer!",
+            "user": "@priya_singh",
+            "location": "Delhi",
+            "latitude": 28.6139,
+            "longitude": 77.2090,
+            "timestamp": "2025-04-25 14:00:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Health"
+        },
+        {
+            "text": "Garbage pile-up in Bandra is unbearable.",
+            "user": "@rahul_mehta",
+            "location": "Mumbai, Maharashtra",
+            "latitude": 19.0760,
+            "longitude": 72.8777,
+            "timestamp": "2025-04-25 11:15:00",
+            "sentiment": "Negative",
+            "emotion": "disgust",
+            "category": "Environment"
+        },
+        {
+            "text": "Street lights not working in Anna Nagar.",
+            "user": "@sneha_kumar",
+            "location": "Chennai, Tamil Nadu",
+            "latitude": 13.0827,
+            "longitude": 80.2707,
+            "timestamp": "2025-04-24 20:00:00",
+            "sentiment": "Neutral",
+            "emotion": "sadness",
+            "category": "Infrastructure"
+        },
+        {
+            "text": "New school in Salt Lake is excellent!",
+            "user": "@aniruddha_bose",
+            "location": "Kolkata, West Bengal",
+            "latitude": 22.5726,
+            "longitude": 88.3639,
+            "timestamp": "2025-04-26 10:45:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Education"
+        },
+        {
+            "text": "Air pollution in Jaipur is worsening.",
+            "user": "@vikram_shekhawat",
+            "location": "Jaipur, Rajasthan",
+            "latitude": 26.9124,
+            "longitude": 75.7873,
+            "timestamp": "2025-04-25 16:20:00",
+            "sentiment": "Negative",
+            "emotion": "fear",
+            "category": "Environment"
+        },
+        {
+            "text": "Water supply restored in Sector 5, Guwahati.",
+            "user": "@nisha_das",
+            "location": "Guwahati, Assam",
+            "latitude": 26.1445,
+            "longitude": 91.7362,
+            "timestamp": "2025-04-26 08:30:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Health"
+        },
+        {
+            "text": "Crime rates in Hyderabad are concerning.",
+            "user": "@suresh_reddy",
+            "location": "Hyderabad, Telangana",
+            "latitude": 17.3850,
+            "longitude": 78.4867,
+            "timestamp": "2025-04-25 19:00:00",
+            "sentiment": "Negative",
+            "emotion": "fear",
+            "category": "Public Safety"
+        },
+        {
+            "text": "New metro line in Pune is fantastic!",
+            "user": "@rohan_pawar",
+            "location": "Pune, Maharashtra",
+            "latitude": 18.5204,
+            "longitude": 73.8567,
+            "timestamp": "2025-04-26 12:00:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Infrastructure"
+        },
+        {
+            "text": "Lack of clean water in Bhopal is a crisis.",
+            "user": "@neha_verma",
+            "location": "Bhopal, Madhya Pradesh",
+            "latitude": 23.2599,
+            "longitude": 77.4126,
+            "timestamp": "2025-04-25 13:45:00",
+            "sentiment": "Negative",
+            "emotion": "sadness",
+            "category": "Health"
+        },
+        {
+            "text": "Tree plantation drive in Ahmedabad was a success!",
+            "user": "@kunal_patel",
+            "location": "Ahmedabad, Gujarat",
+            "latitude": 23.0225,
+            "longitude": 72.5714,
+            "timestamp": "2025-04-25 17:30:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Environment"
+        },
+        {
+            "text": "Poor road conditions in Patna.",
+            "user": "@rajesh_sinha",
+            "location": "Patna, Bihar",
+            "latitude": 25.5941,
+            "longitude": 85.1376,
+            "timestamp": "2025-04-24 22:15:00",
+            "sentiment": "Negative",
+            "emotion": "anger",
+            "category": "Infrastructure"
+        },
+        {
+            "text": "New library in Chandigarh is impressive.",
+            "user": "@simran_kaur",
+            "location": "Chandigarh",
+            "latitude": 30.7333,
+            "longitude": 76.7794,
+            "timestamp": "2025-04-26 09:00:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Education"
+        },
+        {
+            "text": "Stray dog issue in Lucknow needs attention.",
+            "user": "@arjun_mishra",
+            "location": "Lucknow, Uttar Pradesh",
+            "latitude": 26.8467,
+            "longitude": 80.9462,
+            "timestamp": "2025-04-25 15:10:00",
+            "sentiment": "Negative",
+            "emotion": "fear",
+            "category": "Public Safety"
+        },
+        {
+            "text": "Solar panels installed in Coimbatore schools!",
+            "user": "@divya_nair",
+            "location": "Coimbatore, Tamil Nadu",
+            "latitude": 11.0168,
+            "longitude": 76.9558,
+            "timestamp": "2025-04-26 11:30:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Environment"
+        },
+        {
+            "text": "Traffic jams in Gurgaon are unbearable.",
+            "user": "@manish_aggarwal",
+            "location": "Gurgaon, Haryana",
+            "latitude": 28.4595,
+            "longitude": 77.0266,
+            "timestamp": "2025-04-25 18:45:00",
+            "sentiment": "Negative",
+            "emotion": "anger",
+            "category": "Infrastructure"
+        },
+        {
+            "text": "Free health camp in Bhubaneswar was helpful.",
+            "user": "@santosh_behera",
+            "location": "Bhubaneswar, Odisha",
+            "latitude": 20.2961,
+            "longitude": 85.8245,
+            "timestamp": "2025-04-26 10:00:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Health"
+        },
+        {
+            "text": "No street lights in Agra’s outskirts.",
+            "user": "@pooja_yadav",
+            "location": "Agra, Uttar Pradesh",
+            "latitude": 27.1767,
+            "longitude": 78.0081,
+            "timestamp": "2025-04-25 20:30:00",
+            "sentiment": "Negative",
+            "emotion": "sadness",
+            "category": "Infrastructure"
+        },
+        {
+            "text": "New IT hub in Kochi is boosting jobs!",
+            "user": "@anil_thomas",
+            "location": "Kochi, Kerala",
+            "latitude": 9.9312,
+            "longitude": 76.2673,
+            "timestamp": "2025-04-26 13:15:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Education"
+        },
+        {
+            "text": "Sewage overflow in Indore is a health hazard.",
+            "user": "@ravi_joshi",
+            "location": "Indore, Madhya Pradesh",
+            "latitude": 22.7196,
+            "longitude": 75.8577,
+            "timestamp": "2025-04-25 12:50:00",
+            "sentiment": "Negative",
+            "emotion": "disgust",
+            "category": "Health"
+        },
+        {
+            "text": "Cleanliness drive in Varanasi is inspiring.",
+            "user": "@shweta_tiwari",
+            "location": "Varanasi, Uttar Pradesh",
+            "latitude": 25.3176,
+            "longitude": 82.9739,
+            "timestamp": "2025-04-25 17:00:00",
+            "sentiment": "Positive",
+            "emotion": "happiness",
+            "category": "Environment"
         }
     
 ]
