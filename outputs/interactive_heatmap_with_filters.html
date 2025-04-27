@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_26807062f58550e7c62d6c48f679ecfb {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+<div style="position: fixed; bottom: 50px; left: 50px; width: 220px; background-color: rgba(255, 255, 255, 0.9);
+            z-index:9999; font-size: 12px; border: 2px solid #ccc; border-radius: 5px; padding: 10px;
+            font-family: Arial;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <b>Category Legend</b>
+        <button onclick="toggleLegend()" style="background: none; border: none; cursor: pointer; font-size: 14px;">▲</button>
+    </div>
+    <div id="legend-content">
+        <i class="fa fa-circle" style="color: green"></i> Health<br>
+        <i class="fa fa-circle" style="color: blue"></i> Education<br>
+        <i class="fa fa-circle" style="color: orange"></i> Infrastructure<br>
+        <i class="fa fa-circle" style="color: purple"></i> Environment<br>
+        <i class="fa fa-circle" style="color: red"></i> Public Safety<br>
+    </div>
+</div>
+<script>
+function toggleLegend() {
+    var content = document.getElementById('legend-content');
+    var button = event.target;
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        button.innerHTML = '▲';
+    } else {
+        content.style.display = 'none';
+        button.innerHTML = '▼';
+    }
+}
+</script>
+    
+<div style="position: fixed; top: 10px; right: 10px; width: 250px; background-color: rgba(255, 255, 255, 0.9);
+            z-index:9999; font-size: 12px; border: 2px solid #ccc; border-radius: 5px; padding: 10px;
+            font-family: Arial;">
+    <b>Filter Feedback</b><br><br>
+    <label for="sentiment-filter">Sentiment:</label><br>
+    <select id="sentiment-filter" style="width: 100%; padding: 5px;">
+        <option value="">All</option>
+        <option value="Positive">Positive</option>
+        <option value="Neutral">Neutral</option>
+        <option value="Negative">Negative</option>
+    </select><br><br>
+    <label for="emotion-filter">Emotion:</label><br>
+    <select id="emotion-filter" style="width: 100%; padding: 5px;">
+        <option value="">All</option>
+        <option value="happiness">Happiness</option>
+        <option value="sadness">Sadness</option>
+        <option value="fear">Fear</option>
+        <option value="disgust">Disgust</option>
+        <option value="surprise">Surprise</option>
+        <option value="anger">Anger</option>
+    </select><br><br>
+    <label for="category-filter">Category:</label><br>
+    <select id="category-filter" style="width: 100%; padding: 5px;">
+        <option value="">All</option>
+        <option value="Health">Health</option>
+        <option value="Education">Education</option>
+        <option value="Infrastructure">Infrastructure</option>
+        <option value="Environment">Environment</option>
+        <option value="Public Safety">Public Safety</option>
+    </select><br><br>
+    <button onclick="applyFilters()" style="width: 100%; padding: 5px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">Apply Filters</button>
+</div>
+<script>
+// Feedback data embedded in the HTML
+var feedbackData = [{"text": "Potholes on MG Road are dangerous for commuters!", "user": "@amit_sharma", "location": "Bangalore, Karnataka", "latitude": 12.9716, "longitude": 77.5946, "timestamp": "2025-04-25 09:30:00", "sentiment": "Negative", "emotion": "anger", "category": "Infrastructure"}, {"text": "New hospital in South Delhi is a game-changer!", "user": "@priya_singh", "location": "Delhi", "latitude": 28.6139, "longitude": 77.209, "timestamp": "2025-04-25 14:00:00", "sentiment": "Positive", "emotion": "happiness", "category": "Health"}, {"text": "Garbage pile-up in Bandra is unbearable.", "user": "@rahul_mehta", "location": "Mumbai, Maharashtra", "latitude": 19.076, "longitude": 72.8777, "timestamp": "2025-04-25 11:15:00", "sentiment": "Negative", "emotion": "disgust", "category": "Environment"}, {"text": "Street lights not working in Anna Nagar.", "user": "@sneha_kumar", "location": "Chennai, Tamil Nadu", "latitude": 13.0827, "longitude": 80.2707, "timestamp": "2025-04-24 20:00:00", "sentiment": "Neutral", "emotion": "sadness", "category": "Infrastructure"}, {"text": "New school in Salt Lake is excellent!", "user": "@aniruddha_bose", "location": "Kolkata, West Bengal", "latitude": 22.5726, "longitude": 88.3639, "timestamp": "2025-04-26 10:45:00", "sentiment": "Positive", "emotion": "happiness", "category": "Education"}, {"text": "Air pollution in Jaipur is worsening.", "user": "@vikram_shekhawat", "location": "Jaipur, Rajasthan", "latitude": 26.9124, "longitude": 75.7873, "timestamp": "2025-04-25 16:20:00", "sentiment": "Negative", "emotion": "fear", "category": "Environment"}, {"text": "Water supply restored in Sector 5, Guwahati.", "user": "@nisha_das", "location": "Guwahati, Assam", "latitude": 26.1445, "longitude": 91.7362, "timestamp": "2025-04-26 08:30:00", "sentiment": "Positive", "emotion": "happiness", "category": "Health"}, {"text": "Crime rates in Hyderabad are concerning.", "user": "@suresh_reddy", "location": "Hyderabad, Telangana", "latitude": 17.385, "longitude": 78.4867, "timestamp": "2025-04-25 19:00:00", "sentiment": "Negative", "emotion": "fear", "category": "Public Safety"}, {"text": "New metro line in Pune is fantastic!", "user": "@rohan_pawar", "location": "Pune, Maharashtra", "latitude": 18.5204, "longitude": 73.8567, "timestamp": "2025-04-26 12:00:00", "sentiment": "Positive", "emotion": "happiness", "category": "Infrastructure"}, {"text": "Lack of clean water in Bhopal is a crisis.", "user": "@neha_verma", "location": "Bhopal, Madhya Pradesh", "latitude": 23.2599, "longitude": 77.4126, "timestamp": "2025-04-25 13:45:00", "sentiment": "Negative", "emotion": "sadness", "category": "Health"}, {"text": "Tree plantation drive in Ahmedabad was a success!", "user": "@kunal_patel", "location": "Ahmedabad, Gujarat", "latitude": 23.0225, "longitude": 72.5714, "timestamp": "2025-04-25 17:30:00", "sentiment": "Positive", "emotion": "happiness", "category": "Environment"}, {"text": "Poor road conditions in Patna.", "user": "@rajesh_sinha", "location": "Patna, Bihar", "latitude": 25.5941, "longitude": 85.1376, "timestamp": "2025-04-24 22:15:00", "sentiment": "Negative", "emotion": "anger", "category": "Infrastructure"}, {"text": "New library in Chandigarh is impressive.", "user": "@simran_kaur", "location": "Chandigarh", "latitude": 30.7333, "longitude": 76.7794, "timestamp": "2025-04-26 09:00:00", "sentiment": "Positive", "emotion": "happiness", "category": "Education"}, {"text": "Stray dog issue in Lucknow needs attention.", "user": "@arjun_mishra", "location": "Lucknow, Uttar Pradesh", "latitude": 26.8467, "longitude": 80.9462, "timestamp": "2025-04-25 15:10:00", "sentiment": "Negative", "emotion": "fear", "category": "Public Safety"}, {"text": "Solar panels installed in Coimbatore schools!", "user": "@divya_nair", "location": "Coimbatore, Tamil Nadu", "latitude": 11.0168, "longitude": 76.9558, "timestamp": "2025-04-26 11:30:00", "sentiment": "Positive", "emotion": "happiness", "category": "Environment"}, {"text": "Traffic jams in Gurgaon are unbearable.", "user": "@manish_aggarwal", "location": "Gurgaon, Haryana", "latitude": 28.4595, "longitude": 77.0266, "timestamp": "2025-04-25 18:45:00", "sentiment": "Negative", "emotion": "anger", "category": "Infrastructure"}, {"text": "Free health camp in Bhubaneswar was helpful.", "user": "@santosh_behera", "location": "Bhubaneswar, Odisha", "latitude": 20.2961, "longitude": 85.8245, "timestamp": "2025-04-26 10:00:00", "sentiment": "Positive", "emotion": "happiness", "category": "Health"}, {"text": "No street lights in Agra\u2019s outskirts.", "user": "@pooja_yadav", "location": "Agra, Uttar Pradesh", "latitude": 27.1767, "longitude": 78.0081, "timestamp": "2025-04-25 20:30:00", "sentiment": "Negative", "emotion": "sadness", "category": "Infrastructure"}, {"text": "New IT hub in Kochi is boosting jobs!", "user": "@anil_thomas", "location": "Kochi, Kerala", "latitude": 9.9312, "longitude": 76.2673, "timestamp": "2025-04-26 13:15:00", "sentiment": "Positive", "emotion": "happiness", "category": "Education"}, {"text": "Sewage overflow in Indore is a health hazard.", "user": "@ravi_joshi", "location": "Indore, Madhya Pradesh", "latitude": 22.7196, "longitude": 75.8577, "timestamp": "2025-04-25 12:50:00", "sentiment": "Negative", "emotion": "disgust", "category": "Health"}, {"text": "Cleanliness drive in Varanasi is inspiring.", "user": "@shweta_tiwari", "location": "Varanasi, Uttar Pradesh", "latitude": 25.3176, "longitude": 82.9739, "timestamp": "2025-04-26 14:00:00", "sentiment": "Positive", "emotion": "happiness", "category": "Environment"}, {"text": "Lack of police patrolling in Nagpur at night.", "user": "@vivek_deshmukh", "location": "Nagpur, Maharashtra", "latitude": 21.1458, "longitude": 79.0882, "timestamp": "2025-04-25 21:00:00", "sentiment": "Negative", "emotion": "fear", "category": "Public Safety"}, {"text": "New bridge in Surat is easing traffic.", "user": "@jayesh_shah", "location": "Surat, Gujarat", "latitude": 21.1702, "longitude": 72.8311, "timestamp": "2025-04-26 08:45:00", "sentiment": "Positive", "emotion": "happiness", "category": "Infrastructure"}, {"text": "Poor sanitation in Kanpur markets.", "user": "@ankita_gupta", "location": "Kanpur, Uttar Pradesh", "latitude": 26.4499, "longitude": 80.3319, "timestamp": "2025-04-25 14:30:00", "sentiment": "Negative", "emotion": "disgust", "category": "Environment"}, {"text": "New skill center in Dehradun is promising.", "user": "@rohit_bhatt", "location": "Dehradun, Uttarakhand", "latitude": 30.3165, "longitude": 78.0322, "timestamp": "2025-04-26 09:30:00", "sentiment": "Positive", "emotion": "happiness", "category": "Education"}, {"text": "Flooded roads in Visakhapatnam after rain.", "user": "@krishna_rao", "location": "Visakhapatnam, Andhra Pradesh", "latitude": 17.6868, "longitude": 83.2185, "timestamp": "2025-04-25 16:00:00", "sentiment": "Negative", "emotion": "sadness", "category": "Infrastructure"}, {"text": "Community health program in Ranchi is effective.", "user": "@meera_singh", "location": "Ranchi, Jharkhand", "latitude": 23.3441, "longitude": 85.3096, "timestamp": "2025-04-26 11:00:00", "sentiment": "Positive", "emotion": "happiness", "category": "Health"}, {"text": "Noise pollution in Faridabad is out of control.", "user": "@sameer_khanna", "location": "Faridabad, Haryana", "latitude": 28.4089, "longitude": 77.3178, "timestamp": "2025-04-25 17:00:00", "sentiment": "Negative", "emotion": "anger", "category": "Environment"}, {"text": "New CCTV cameras in Amritsar improve safety.", "user": "@harpreet_singh", "location": "Amritsar, Punjab", "latitude": 31.634, "longitude": 74.8723, "timestamp": "2025-04-26 12:30:00", "sentiment": "Positive", "emotion": "happiness", "category": "Public Safety"}, {"text": "Waterlogging in Mysore during monsoon.", "user": "@lakshmi_prasad", "location": "Mysore, Karnataka", "latitude": 12.2958, "longitude": 76.6394, "timestamp": "2025-04-25 15:45:00", "sentiment": "Negative", "emotion": "sadness", "category": "Infrastructure"}];
+
+// Map and layer references
+var map = null;
+var heatmapFeatureGroup = null;
+var markerFeatureGroup = null;
+var currentHeatLayer = null;
+var currentMarkerCluster = null;
+
+// Initialize the map and layers after the map is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        map = window.map_1; // Folium's default map ID
+        
+        // Find existing layers by name
+        map.eachLayer(function(layer) {
+            if (layer.options && layer.options.name === 'Heatmap') {
+                heatmapFeatureGroup = layer;
+            } else if (layer.options && layer.options.name === 'Markers') {
+                markerFeatureGroup = layer;
+            }
+        });
+
+        if (!heatmapFeatureGroup || !markerFeatureGroup) {
+            console.error('Could not find Heatmap or Markers layers');
+            return;
+        }
+
+        console.log('Map initialized with ' + feedbackData.length + ' feedback entries');
+        applyFilters(); // Initial render
+    } catch (e) {
+        console.error('Error initializing map: ', e);
+    }
+});
+
+function applyFilters() {
+    try {
+        // Get filter values
+        var sentiment = document.getElementById('sentiment-filter').value.toLowerCase();
+        var emotion = document.getElementById('emotion-filter').value.toLowerCase();
+        var category = document.getElementById('category-filter').value.toLowerCase();
+
+        // Filter feedback data
+        var filteredData = feedbackData.filter(function(entry) {
+            var entrySentiment = entry.sentiment ? entry.sentiment.toLowerCase() : '';
+            var entryEmotion = entry.emotion ? entry.emotion.toLowerCase() : '';
+            var entryCategory = entry.category ? entry.category.toLowerCase() : '';
+
+            return (
+                (sentiment === '' || entrySentiment === sentiment) &&
+                (emotion === '' || entryEmotion === emotion) &&
+                (category === '' || entryCategory === category)
+            );
+        });
+
+        console.log('Filtered ' + filteredData.length + ' entries');
+
+        // Update Heatmap Layer
+        if (currentHeatLayer) {
+            heatmapFeatureGroup.removeLayer(currentHeatLayer);
+        }
+        
+        if (filteredData.length > 0) {
+            var heatData = filteredData.map(function(entry) {
+                return [entry.latitude, entry.longitude];
+            });
+            currentHeatLayer = L.heatLayer(heatData, {
+                radius: 12,
+                blur: 8,
+                maxZoom: 13,
+                gradient: { '0.2': 'blue', '0.4': 'lime', '0.6': 'yellow', '0.8': 'orange', '1.0': 'red' }
+            });
+            heatmapFeatureGroup.addLayer(currentHeatLayer);
+        }
+
+        // Update Marker Layer
+        if (currentMarkerCluster) {
+            markerFeatureGroup.removeLayer(currentMarkerCluster);
+        }
+        
+        var markerCluster = L.markerClusterGroup();
+        var categoryColors = {
+            'health': 'green',
+            'education': 'blue',
+            'infrastructure': 'orange',
+            'environment': 'purple',
+            'public safety': 'red'
+        };
+
+        filteredData.forEach(function(entry) {
+            if (!entry.latitude || !entry.longitude) return;
+
+            var popupMessage = `<div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">
+                <b>User:</b> ${entry.user}<br>
+                <b>Sentiment:</b> ${entry.sentiment}<br>
+                <b>Emotion:</b> ${entry.emotion}<br>
+                <b>Category:</b> ${entry.category}<br>
+                <b>Feedback:</b> ${entry.text}<br>
+                <b>Timestamp:</b> ${entry.timestamp}
+            </div>`;
+
+            var markerColor = categoryColors[entry.category.toLowerCase()] || 'gray';
+            var marker = L.marker([entry.latitude, entry.longitude], {
+                icon: L.AwesomeMarkers.icon({
+                    icon: 'info-sign',
+                    prefix: 'fa',
+                    markerColor: markerColor
+                })
+            }).bindPopup(popupMessage, { maxWidth: 300 });
+            
+            markerCluster.addLayer(marker);
+        });
+
+        currentMarkerCluster = markerCluster;
+        markerFeatureGroup.addLayer(currentMarkerCluster);
+
+    } catch (e) {
+        console.error('Error applying filters: ', e);
+    }
+}
+</script>
+    
+            <div class="folium-map" id="map_26807062f58550e7c62d6c48f679ecfb" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_26807062f58550e7c62d6c48f679ecfb = L.map(
+                "map_26807062f58550e7c62d6c48f679ecfb",
+                {
+                    center: [20.5937, 78.9629],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a246479dfd65a4921bf4bcbdbbeaf8d5 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u00a9 \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u00a9 \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a246479dfd65a4921bf4bcbdbbeaf8d5.addTo(map_26807062f58550e7c62d6c48f679ecfb);
+        
+    
+            var feature_group_4b71116bd1905162605e25c398cdbf21 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var heat_map_9c61e2231b2ced3176c8a67a94181e42 = L.heatLayer(
+                [[12.9716, 77.5946], [28.6139, 77.209], [19.076, 72.8777], [13.0827, 80.2707], [22.5726, 88.3639], [26.9124, 75.7873], [26.1445, 91.7362], [17.385, 78.4867], [18.5204, 73.8567], [23.2599, 77.4126], [23.0225, 72.5714], [25.5941, 85.1376], [30.7333, 76.7794], [26.8467, 80.9462], [11.0168, 76.9558], [28.4595, 77.0266], [20.2961, 85.8245], [27.1767, 78.0081], [9.9312, 76.2673], [22.7196, 75.8577], [25.3176, 82.9739], [21.1458, 79.0882], [21.1702, 72.8311], [26.4499, 80.3319], [30.3165, 78.0322], [17.6868, 83.2185], [23.3441, 85.3096], [28.4089, 77.3178], [31.634, 74.8723], [12.2958, 76.6394]],
+                {
+  "minOpacity": 0.5,
+  "maxZoom": 13,
+  "radius": 12,
+  "blur": 8,
+  "gradient": {
+  "0.2": "blue",
+  "0.4": "lime",
+  "0.6": "yellow",
+  "0.8": "orange",
+  "1.0": "red",
+},
+}
+            );
+        
+    
+            heat_map_9c61e2231b2ced3176c8a67a94181e42.addTo(feature_group_4b71116bd1905162605e25c398cdbf21);
+        
+    
+            feature_group_4b71116bd1905162605e25c398cdbf21.addTo(map_26807062f58550e7c62d6c48f679ecfb);
+        
+    
+            var feature_group_6ceb7dc6454dd825e36a3055af19627e = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe = L.markerClusterGroup(
+                {
+}
+            );
+        
+    
+            var marker_875cc376c0d31c1e5c2b3463c5cdb899 = L.marker(
+                [12.9716, 77.5946],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_47b7812618c9b2c7ed45a240712214fa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4bfd284e13cd7ff432d3b3bdb7b12000 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5d4736bd72ddd8cd4ba41510d3a31658 = $(`<div id="html_5d4736bd72ddd8cd4ba41510d3a31658" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @amit_sharma<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> anger<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> Potholes on MG Road are dangerous for commuters!<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 09:30:00         </div>         </div>`)[0];
+                popup_4bfd284e13cd7ff432d3b3bdb7b12000.setContent(html_5d4736bd72ddd8cd4ba41510d3a31658);
+            
+        
+
+        marker_875cc376c0d31c1e5c2b3463c5cdb899.bindPopup(popup_4bfd284e13cd7ff432d3b3bdb7b12000)
+        ;
+
+        
+    
+    
+                marker_875cc376c0d31c1e5c2b3463c5cdb899.setIcon(icon_47b7812618c9b2c7ed45a240712214fa);
+            
+    
+            var marker_a53b811d8ddaa8e556f748233f1f0e75 = L.marker(
+                [28.6139, 77.209],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_3f4bbef6949587bab7e9bf8ba8ab08c3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d4343c9da921ecc53d249ba2a5f09868 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c109f62497fd4701488e37e5023119ed = $(`<div id="html_c109f62497fd4701488e37e5023119ed" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @priya_singh<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Health<br>             <b style="color: #333;">Feedback:</b> New hospital in South Delhi is a game-changer!<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 14:00:00         </div>         </div>`)[0];
+                popup_d4343c9da921ecc53d249ba2a5f09868.setContent(html_c109f62497fd4701488e37e5023119ed);
+            
+        
+
+        marker_a53b811d8ddaa8e556f748233f1f0e75.bindPopup(popup_d4343c9da921ecc53d249ba2a5f09868)
+        ;
+
+        
+    
+    
+                marker_a53b811d8ddaa8e556f748233f1f0e75.setIcon(icon_3f4bbef6949587bab7e9bf8ba8ab08c3);
+            
+    
+            var marker_30c0b59da1df0e946b07497fdf871f80 = L.marker(
+                [19.076, 72.8777],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_e6fc36dd720100f7b7a768a8f301b967 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2629204c451eab5db7ff442702fc2dd3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7228aa67eadd6cf54ca670e6dcb4415d = $(`<div id="html_7228aa67eadd6cf54ca670e6dcb4415d" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @rahul_mehta<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> disgust<br>             <b style="color: #333;">Category:</b> Environment<br>             <b style="color: #333;">Feedback:</b> Garbage pile-up in Bandra is unbearable.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 11:15:00         </div>         </div>`)[0];
+                popup_2629204c451eab5db7ff442702fc2dd3.setContent(html_7228aa67eadd6cf54ca670e6dcb4415d);
+            
+        
+
+        marker_30c0b59da1df0e946b07497fdf871f80.bindPopup(popup_2629204c451eab5db7ff442702fc2dd3)
+        ;
+
+        
+    
+    
+                marker_30c0b59da1df0e946b07497fdf871f80.setIcon(icon_e6fc36dd720100f7b7a768a8f301b967);
+            
+    
+            var marker_018e2a41e479587bedeeb47f024361f2 = L.marker(
+                [13.0827, 80.2707],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_cc51d49c5ce8c70450b45c61c2b26bc8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b82d13d9cf3c06b35fee54821db2e5d0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2fd210f590c4a57161805597abbdff3d = $(`<div id="html_2fd210f590c4a57161805597abbdff3d" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @sneha_kumar<br>             <b style="color: #333;">Sentiment:</b> Neutral<br>             <b style="color: #333;">Emotion:</b> sadness<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> Street lights not working in Anna Nagar.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-24 20:00:00         </div>         </div>`)[0];
+                popup_b82d13d9cf3c06b35fee54821db2e5d0.setContent(html_2fd210f590c4a57161805597abbdff3d);
+            
+        
+
+        marker_018e2a41e479587bedeeb47f024361f2.bindPopup(popup_b82d13d9cf3c06b35fee54821db2e5d0)
+        ;
+
+        
+    
+    
+                marker_018e2a41e479587bedeeb47f024361f2.setIcon(icon_cc51d49c5ce8c70450b45c61c2b26bc8);
+            
+    
+            var marker_ac95c92fcbc17f90a95bf46fd9fb9a51 = L.marker(
+                [22.5726, 88.3639],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_10f6eadd9c04ed3a2ec1f9f5b29a61be = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_712edb069bff51389ee4523fed87b5b0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b8daa72468910d06bd4a2dadf8021d74 = $(`<div id="html_b8daa72468910d06bd4a2dadf8021d74" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @aniruddha_bose<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Education<br>             <b style="color: #333;">Feedback:</b> New school in Salt Lake is excellent!<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 10:45:00         </div>         </div>`)[0];
+                popup_712edb069bff51389ee4523fed87b5b0.setContent(html_b8daa72468910d06bd4a2dadf8021d74);
+            
+        
+
+        marker_ac95c92fcbc17f90a95bf46fd9fb9a51.bindPopup(popup_712edb069bff51389ee4523fed87b5b0)
+        ;
+
+        
+    
+    
+                marker_ac95c92fcbc17f90a95bf46fd9fb9a51.setIcon(icon_10f6eadd9c04ed3a2ec1f9f5b29a61be);
+            
+    
+            var marker_0536ab867a858cd68ff63010a46ed2bf = L.marker(
+                [26.9124, 75.7873],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_137309de0b057c31f3bf06dfa4b3289a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_33378765affe131db70fdc3555b65b5f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b3041f2699ae59015901bbec5c25b9e5 = $(`<div id="html_b3041f2699ae59015901bbec5c25b9e5" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @vikram_shekhawat<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> fear<br>             <b style="color: #333;">Category:</b> Environment<br>             <b style="color: #333;">Feedback:</b> Air pollution in Jaipur is worsening.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 16:20:00         </div>         </div>`)[0];
+                popup_33378765affe131db70fdc3555b65b5f.setContent(html_b3041f2699ae59015901bbec5c25b9e5);
+            
+        
+
+        marker_0536ab867a858cd68ff63010a46ed2bf.bindPopup(popup_33378765affe131db70fdc3555b65b5f)
+        ;
+
+        
+    
+    
+                marker_0536ab867a858cd68ff63010a46ed2bf.setIcon(icon_137309de0b057c31f3bf06dfa4b3289a);
+            
+    
+            var marker_1b24b84adcbd3037f8e275013b3ca414 = L.marker(
+                [26.1445, 91.7362],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_a73443570f979d3db5668d50c7acf554 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dc574ea89e31b5b31da0b885ea346588 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d7dbc82d8d366d22069c4b08109e4f54 = $(`<div id="html_d7dbc82d8d366d22069c4b08109e4f54" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @nisha_das<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Health<br>             <b style="color: #333;">Feedback:</b> Water supply restored in Sector 5, Guwahati.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 08:30:00         </div>         </div>`)[0];
+                popup_dc574ea89e31b5b31da0b885ea346588.setContent(html_d7dbc82d8d366d22069c4b08109e4f54);
+            
+        
+
+        marker_1b24b84adcbd3037f8e275013b3ca414.bindPopup(popup_dc574ea89e31b5b31da0b885ea346588)
+        ;
+
+        
+    
+    
+                marker_1b24b84adcbd3037f8e275013b3ca414.setIcon(icon_a73443570f979d3db5668d50c7acf554);
+            
+    
+            var marker_f80b6696271df6f499353f7da3ca03f3 = L.marker(
+                [17.385, 78.4867],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_5ffd8debf3e0b9d578eb02f1810ae779 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c6a8cb2181582abd199b127689aaae98 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f404daf362a36265a89cc3aeac63e8d2 = $(`<div id="html_f404daf362a36265a89cc3aeac63e8d2" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @suresh_reddy<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> fear<br>             <b style="color: #333;">Category:</b> Public Safety<br>             <b style="color: #333;">Feedback:</b> Crime rates in Hyderabad are concerning.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 19:00:00         </div>         </div>`)[0];
+                popup_c6a8cb2181582abd199b127689aaae98.setContent(html_f404daf362a36265a89cc3aeac63e8d2);
+            
+        
+
+        marker_f80b6696271df6f499353f7da3ca03f3.bindPopup(popup_c6a8cb2181582abd199b127689aaae98)
+        ;
+
+        
+    
+    
+                marker_f80b6696271df6f499353f7da3ca03f3.setIcon(icon_5ffd8debf3e0b9d578eb02f1810ae779);
+            
+    
+            var marker_b9b23e2948bec297abdf379241b6bf6c = L.marker(
+                [18.5204, 73.8567],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_20defec2ac14b1143df553fdcd6e83f3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6e6ba4d4fca1757e809ff4b5abb6a6e6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_aa507b21c0a8623a487be68b3cece020 = $(`<div id="html_aa507b21c0a8623a487be68b3cece020" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @rohan_pawar<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> New metro line in Pune is fantastic!<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 12:00:00         </div>         </div>`)[0];
+                popup_6e6ba4d4fca1757e809ff4b5abb6a6e6.setContent(html_aa507b21c0a8623a487be68b3cece020);
+            
+        
+
+        marker_b9b23e2948bec297abdf379241b6bf6c.bindPopup(popup_6e6ba4d4fca1757e809ff4b5abb6a6e6)
+        ;
+
+        
+    
+    
+                marker_b9b23e2948bec297abdf379241b6bf6c.setIcon(icon_20defec2ac14b1143df553fdcd6e83f3);
+            
+    
+            var marker_3822d7efba224916eb99e2671e636427 = L.marker(
+                [23.2599, 77.4126],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_c13de30f9d2205898db49646c1ed9789 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c112c5d335c417284cbecccd9bb12ac6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f8f277da68bb0016fa76b2fd8a317dc0 = $(`<div id="html_f8f277da68bb0016fa76b2fd8a317dc0" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @neha_verma<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> sadness<br>             <b style="color: #333;">Category:</b> Health<br>             <b style="color: #333;">Feedback:</b> Lack of clean water in Bhopal is a crisis.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 13:45:00         </div>         </div>`)[0];
+                popup_c112c5d335c417284cbecccd9bb12ac6.setContent(html_f8f277da68bb0016fa76b2fd8a317dc0);
+            
+        
+
+        marker_3822d7efba224916eb99e2671e636427.bindPopup(popup_c112c5d335c417284cbecccd9bb12ac6)
+        ;
+
+        
+    
+    
+                marker_3822d7efba224916eb99e2671e636427.setIcon(icon_c13de30f9d2205898db49646c1ed9789);
+            
+    
+            var marker_14ede1aeba12e3093442b37fd5a29c6a = L.marker(
+                [23.0225, 72.5714],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_f894a1a2c50a69d40f76e4539a0d1d2b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a24ee961eb589d1d3981a7776ecf465a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a5bf52574d69f1544d506544625f6ecd = $(`<div id="html_a5bf52574d69f1544d506544625f6ecd" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @kunal_patel<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Environment<br>             <b style="color: #333;">Feedback:</b> Tree plantation drive in Ahmedabad was a success!<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 17:30:00         </div>         </div>`)[0];
+                popup_a24ee961eb589d1d3981a7776ecf465a.setContent(html_a5bf52574d69f1544d506544625f6ecd);
+            
+        
+
+        marker_14ede1aeba12e3093442b37fd5a29c6a.bindPopup(popup_a24ee961eb589d1d3981a7776ecf465a)
+        ;
+
+        
+    
+    
+                marker_14ede1aeba12e3093442b37fd5a29c6a.setIcon(icon_f894a1a2c50a69d40f76e4539a0d1d2b);
+            
+    
+            var marker_492e9389afff71e28bc9f978884d5db1 = L.marker(
+                [25.5941, 85.1376],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_f4ba4a3747e8d7833575cc28079eb983 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1502be118b2f5b387778e10ea2e6a14c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b8305755a751217bfa37163175851474 = $(`<div id="html_b8305755a751217bfa37163175851474" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @rajesh_sinha<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> anger<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> Poor road conditions in Patna.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-24 22:15:00         </div>         </div>`)[0];
+                popup_1502be118b2f5b387778e10ea2e6a14c.setContent(html_b8305755a751217bfa37163175851474);
+            
+        
+
+        marker_492e9389afff71e28bc9f978884d5db1.bindPopup(popup_1502be118b2f5b387778e10ea2e6a14c)
+        ;
+
+        
+    
+    
+                marker_492e9389afff71e28bc9f978884d5db1.setIcon(icon_f4ba4a3747e8d7833575cc28079eb983);
+            
+    
+            var marker_15b009d3651c80fdda75470f23ccee61 = L.marker(
+                [30.7333, 76.7794],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_be32f68ee507738fa87fdcc6db9dbb35 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c0362af869632b4b56c8e1969ecbfac9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_627a50efc9765668b2ce7d3bfb36d612 = $(`<div id="html_627a50efc9765668b2ce7d3bfb36d612" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @simran_kaur<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Education<br>             <b style="color: #333;">Feedback:</b> New library in Chandigarh is impressive.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 09:00:00         </div>         </div>`)[0];
+                popup_c0362af869632b4b56c8e1969ecbfac9.setContent(html_627a50efc9765668b2ce7d3bfb36d612);
+            
+        
+
+        marker_15b009d3651c80fdda75470f23ccee61.bindPopup(popup_c0362af869632b4b56c8e1969ecbfac9)
+        ;
+
+        
+    
+    
+                marker_15b009d3651c80fdda75470f23ccee61.setIcon(icon_be32f68ee507738fa87fdcc6db9dbb35);
+            
+    
+            var marker_85481da9c51369b4c22041c80d6fd224 = L.marker(
+                [26.8467, 80.9462],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_0c82987219d6023ba69ae49f269f5a0e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8443ffb77d70aec0939bac2359af6098 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_05c75e8f057543de336ded36fe71fc74 = $(`<div id="html_05c75e8f057543de336ded36fe71fc74" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @arjun_mishra<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> fear<br>             <b style="color: #333;">Category:</b> Public Safety<br>             <b style="color: #333;">Feedback:</b> Stray dog issue in Lucknow needs attention.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 15:10:00         </div>         </div>`)[0];
+                popup_8443ffb77d70aec0939bac2359af6098.setContent(html_05c75e8f057543de336ded36fe71fc74);
+            
+        
+
+        marker_85481da9c51369b4c22041c80d6fd224.bindPopup(popup_8443ffb77d70aec0939bac2359af6098)
+        ;
+
+        
+    
+    
+                marker_85481da9c51369b4c22041c80d6fd224.setIcon(icon_0c82987219d6023ba69ae49f269f5a0e);
+            
+    
+            var marker_bc7a261ada5a5f36bd9d35c7bb638bad = L.marker(
+                [11.0168, 76.9558],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_2bc9aba563d34cc35b1c3f7140b0335c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_52bb7571c624b333af58beac46c10ef7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f035124820b8aafb7b4c5c72422a3041 = $(`<div id="html_f035124820b8aafb7b4c5c72422a3041" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @divya_nair<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Environment<br>             <b style="color: #333;">Feedback:</b> Solar panels installed in Coimbatore schools!<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 11:30:00         </div>         </div>`)[0];
+                popup_52bb7571c624b333af58beac46c10ef7.setContent(html_f035124820b8aafb7b4c5c72422a3041);
+            
+        
+
+        marker_bc7a261ada5a5f36bd9d35c7bb638bad.bindPopup(popup_52bb7571c624b333af58beac46c10ef7)
+        ;
+
+        
+    
+    
+                marker_bc7a261ada5a5f36bd9d35c7bb638bad.setIcon(icon_2bc9aba563d34cc35b1c3f7140b0335c);
+            
+    
+            var marker_6aabaf178d9de50b0398f116f2bd853b = L.marker(
+                [28.4595, 77.0266],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_fa8f07edd5a2546099a87b4817afc668 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ea6353ae9944c3808a1bd4a22cd5e509 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e968a602bd6352f28bbe4744b4692924 = $(`<div id="html_e968a602bd6352f28bbe4744b4692924" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @manish_aggarwal<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> anger<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> Traffic jams in Gurgaon are unbearable.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 18:45:00         </div>         </div>`)[0];
+                popup_ea6353ae9944c3808a1bd4a22cd5e509.setContent(html_e968a602bd6352f28bbe4744b4692924);
+            
+        
+
+        marker_6aabaf178d9de50b0398f116f2bd853b.bindPopup(popup_ea6353ae9944c3808a1bd4a22cd5e509)
+        ;
+
+        
+    
+    
+                marker_6aabaf178d9de50b0398f116f2bd853b.setIcon(icon_fa8f07edd5a2546099a87b4817afc668);
+            
+    
+            var marker_1f8083d73db6d3694c586600f48a3b46 = L.marker(
+                [20.2961, 85.8245],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_aa1779819ca0500ce27bc3ae411bf39a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a9c3a0d7389aedf5cb36b494cc72d988 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fb63aee4ef65e06ea624276164dbd986 = $(`<div id="html_fb63aee4ef65e06ea624276164dbd986" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @santosh_behera<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Health<br>             <b style="color: #333;">Feedback:</b> Free health camp in Bhubaneswar was helpful.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 10:00:00         </div>         </div>`)[0];
+                popup_a9c3a0d7389aedf5cb36b494cc72d988.setContent(html_fb63aee4ef65e06ea624276164dbd986);
+            
+        
+
+        marker_1f8083d73db6d3694c586600f48a3b46.bindPopup(popup_a9c3a0d7389aedf5cb36b494cc72d988)
+        ;
+
+        
+    
+    
+                marker_1f8083d73db6d3694c586600f48a3b46.setIcon(icon_aa1779819ca0500ce27bc3ae411bf39a);
+            
+    
+            var marker_d157dd27c764ec97b6e19fce7223e4c4 = L.marker(
+                [27.1767, 78.0081],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_9a688dfba1dc8ba16a567fb79b2bd369 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_40ff7178371365e26565a9a1b7a8ec13 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_64f0c69d946055788959f99393f5e743 = $(`<div id="html_64f0c69d946055788959f99393f5e743" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @pooja_yadav<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> sadness<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> No street lights in Agra’s outskirts.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 20:30:00         </div>         </div>`)[0];
+                popup_40ff7178371365e26565a9a1b7a8ec13.setContent(html_64f0c69d946055788959f99393f5e743);
+            
+        
+
+        marker_d157dd27c764ec97b6e19fce7223e4c4.bindPopup(popup_40ff7178371365e26565a9a1b7a8ec13)
+        ;
+
+        
+    
+    
+                marker_d157dd27c764ec97b6e19fce7223e4c4.setIcon(icon_9a688dfba1dc8ba16a567fb79b2bd369);
+            
+    
+            var marker_36b01d8da11ea6052a00705f27fb28aa = L.marker(
+                [9.9312, 76.2673],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_82621a586c2ae6a723451c110386bf2a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ed1b38d620b3e547ea745d8ede7bf116 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e9736788aaf177bd5dbbc8b4c593b337 = $(`<div id="html_e9736788aaf177bd5dbbc8b4c593b337" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @anil_thomas<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Education<br>             <b style="color: #333;">Feedback:</b> New IT hub in Kochi is boosting jobs!<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 13:15:00         </div>         </div>`)[0];
+                popup_ed1b38d620b3e547ea745d8ede7bf116.setContent(html_e9736788aaf177bd5dbbc8b4c593b337);
+            
+        
+
+        marker_36b01d8da11ea6052a00705f27fb28aa.bindPopup(popup_ed1b38d620b3e547ea745d8ede7bf116)
+        ;
+
+        
+    
+    
+                marker_36b01d8da11ea6052a00705f27fb28aa.setIcon(icon_82621a586c2ae6a723451c110386bf2a);
+            
+    
+            var marker_f8aa9e2f6e008a85a9488957f828b116 = L.marker(
+                [22.7196, 75.8577],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_8a8f89881b8261e167b1fb5dd4634ae4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_66247f0faabcca56d0367a4944e6d843 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d6e6c7a0d449a301f04f0b228e2ec808 = $(`<div id="html_d6e6c7a0d449a301f04f0b228e2ec808" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @ravi_joshi<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> disgust<br>             <b style="color: #333;">Category:</b> Health<br>             <b style="color: #333;">Feedback:</b> Sewage overflow in Indore is a health hazard.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 12:50:00         </div>         </div>`)[0];
+                popup_66247f0faabcca56d0367a4944e6d843.setContent(html_d6e6c7a0d449a301f04f0b228e2ec808);
+            
+        
+
+        marker_f8aa9e2f6e008a85a9488957f828b116.bindPopup(popup_66247f0faabcca56d0367a4944e6d843)
+        ;
+
+        
+    
+    
+                marker_f8aa9e2f6e008a85a9488957f828b116.setIcon(icon_8a8f89881b8261e167b1fb5dd4634ae4);
+            
+    
+            var marker_dbac2d0b1241e05c1c8acbe70f6687c9 = L.marker(
+                [25.3176, 82.9739],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_df32767581b5e11bc862a924c88e6a13 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c19d3f4d30d45d4940bde15e0b2112a1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_86ca05aef32b2755facc2391b0f2be74 = $(`<div id="html_86ca05aef32b2755facc2391b0f2be74" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @shweta_tiwari<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Environment<br>             <b style="color: #333;">Feedback:</b> Cleanliness drive in Varanasi is inspiring.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 14:00:00         </div>         </div>`)[0];
+                popup_c19d3f4d30d45d4940bde15e0b2112a1.setContent(html_86ca05aef32b2755facc2391b0f2be74);
+            
+        
+
+        marker_dbac2d0b1241e05c1c8acbe70f6687c9.bindPopup(popup_c19d3f4d30d45d4940bde15e0b2112a1)
+        ;
+
+        
+    
+    
+                marker_dbac2d0b1241e05c1c8acbe70f6687c9.setIcon(icon_df32767581b5e11bc862a924c88e6a13);
+            
+    
+            var marker_e9e383f0610f77cb4296287d2c959bd2 = L.marker(
+                [21.1458, 79.0882],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_67c9eb41953f26633507d5981a2202d5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c7a63856bca65ee7b6b81c07fb5ad121 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f8b613539ebf22feb84653dbd227a84a = $(`<div id="html_f8b613539ebf22feb84653dbd227a84a" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @vivek_deshmukh<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> fear<br>             <b style="color: #333;">Category:</b> Public Safety<br>             <b style="color: #333;">Feedback:</b> Lack of police patrolling in Nagpur at night.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 21:00:00         </div>         </div>`)[0];
+                popup_c7a63856bca65ee7b6b81c07fb5ad121.setContent(html_f8b613539ebf22feb84653dbd227a84a);
+            
+        
+
+        marker_e9e383f0610f77cb4296287d2c959bd2.bindPopup(popup_c7a63856bca65ee7b6b81c07fb5ad121)
+        ;
+
+        
+    
+    
+                marker_e9e383f0610f77cb4296287d2c959bd2.setIcon(icon_67c9eb41953f26633507d5981a2202d5);
+            
+    
+            var marker_2afe391bafd878ba1059504ec4df5afe = L.marker(
+                [21.1702, 72.8311],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_7e5d3d5e5d705d99c5d5f6a6191035b1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_229e062b696d2684e34360fc531f45c9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_18c3092360ffff2cd3bb92eb8f95750d = $(`<div id="html_18c3092360ffff2cd3bb92eb8f95750d" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @jayesh_shah<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> New bridge in Surat is easing traffic.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 08:45:00         </div>         </div>`)[0];
+                popup_229e062b696d2684e34360fc531f45c9.setContent(html_18c3092360ffff2cd3bb92eb8f95750d);
+            
+        
+
+        marker_2afe391bafd878ba1059504ec4df5afe.bindPopup(popup_229e062b696d2684e34360fc531f45c9)
+        ;
+
+        
+    
+    
+                marker_2afe391bafd878ba1059504ec4df5afe.setIcon(icon_7e5d3d5e5d705d99c5d5f6a6191035b1);
+            
+    
+            var marker_6b81dbab077e4f63d3212999fbbf3fad = L.marker(
+                [26.4499, 80.3319],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_4f188be007e175c29d567167b904258b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_453097e5bf8ba0909acc0b428fb46c8d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5076e3a9ed2eb808face2e27ae9f3d78 = $(`<div id="html_5076e3a9ed2eb808face2e27ae9f3d78" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @ankita_gupta<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> disgust<br>             <b style="color: #333;">Category:</b> Environment<br>             <b style="color: #333;">Feedback:</b> Poor sanitation in Kanpur markets.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 14:30:00         </div>         </div>`)[0];
+                popup_453097e5bf8ba0909acc0b428fb46c8d.setContent(html_5076e3a9ed2eb808face2e27ae9f3d78);
+            
+        
+
+        marker_6b81dbab077e4f63d3212999fbbf3fad.bindPopup(popup_453097e5bf8ba0909acc0b428fb46c8d)
+        ;
+
+        
+    
+    
+                marker_6b81dbab077e4f63d3212999fbbf3fad.setIcon(icon_4f188be007e175c29d567167b904258b);
+            
+    
+            var marker_3a2a605f88ce39ded5a2ef5ece710b4f = L.marker(
+                [30.3165, 78.0322],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_4ff738ae4aadfad99cbb609ccde8b073 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b430b9c45819cf65e7cb32560337c535 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7e940b512f81d93fea614562cde87d18 = $(`<div id="html_7e940b512f81d93fea614562cde87d18" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @rohit_bhatt<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Education<br>             <b style="color: #333;">Feedback:</b> New skill center in Dehradun is promising.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 09:30:00         </div>         </div>`)[0];
+                popup_b430b9c45819cf65e7cb32560337c535.setContent(html_7e940b512f81d93fea614562cde87d18);
+            
+        
+
+        marker_3a2a605f88ce39ded5a2ef5ece710b4f.bindPopup(popup_b430b9c45819cf65e7cb32560337c535)
+        ;
+
+        
+    
+    
+                marker_3a2a605f88ce39ded5a2ef5ece710b4f.setIcon(icon_4ff738ae4aadfad99cbb609ccde8b073);
+            
+    
+            var marker_cad107102818199b797dbc5782b1b405 = L.marker(
+                [17.6868, 83.2185],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_29cf651714025525f0bfcd90a42540cf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5a9e7ea2499e26fae9ffd9e7c35d6084 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ccf0599f7be3dcad2653079dd93ca0c7 = $(`<div id="html_ccf0599f7be3dcad2653079dd93ca0c7" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @krishna_rao<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> sadness<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> Flooded roads in Visakhapatnam after rain.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 16:00:00         </div>         </div>`)[0];
+                popup_5a9e7ea2499e26fae9ffd9e7c35d6084.setContent(html_ccf0599f7be3dcad2653079dd93ca0c7);
+            
+        
+
+        marker_cad107102818199b797dbc5782b1b405.bindPopup(popup_5a9e7ea2499e26fae9ffd9e7c35d6084)
+        ;
+
+        
+    
+    
+                marker_cad107102818199b797dbc5782b1b405.setIcon(icon_29cf651714025525f0bfcd90a42540cf);
+            
+    
+            var marker_517915aa56f0dee69c5250f8ed2e6605 = L.marker(
+                [23.3441, 85.3096],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_2348b984f8bd63c7c0c70dfbc50c1cde = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_27c20774b59abbac7051e853b413bd4d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bb66f023ece44815deac30611817e570 = $(`<div id="html_bb66f023ece44815deac30611817e570" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @meera_singh<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Health<br>             <b style="color: #333;">Feedback:</b> Community health program in Ranchi is effective.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 11:00:00         </div>         </div>`)[0];
+                popup_27c20774b59abbac7051e853b413bd4d.setContent(html_bb66f023ece44815deac30611817e570);
+            
+        
+
+        marker_517915aa56f0dee69c5250f8ed2e6605.bindPopup(popup_27c20774b59abbac7051e853b413bd4d)
+        ;
+
+        
+    
+    
+                marker_517915aa56f0dee69c5250f8ed2e6605.setIcon(icon_2348b984f8bd63c7c0c70dfbc50c1cde);
+            
+    
+            var marker_8d32b41e4c4db3d003d17102d957647f = L.marker(
+                [28.4089, 77.3178],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_983ae1a93728c48eb3b9fe5a250da025 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8474a207b972fefa16dba5169470abfc = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_34d68ce4d7c6dfec4a34e443f6988358 = $(`<div id="html_34d68ce4d7c6dfec4a34e443f6988358" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @sameer_khanna<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> anger<br>             <b style="color: #333;">Category:</b> Environment<br>             <b style="color: #333;">Feedback:</b> Noise pollution in Faridabad is out of control.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 17:00:00         </div>         </div>`)[0];
+                popup_8474a207b972fefa16dba5169470abfc.setContent(html_34d68ce4d7c6dfec4a34e443f6988358);
+            
+        
+
+        marker_8d32b41e4c4db3d003d17102d957647f.bindPopup(popup_8474a207b972fefa16dba5169470abfc)
+        ;
+
+        
+    
+    
+                marker_8d32b41e4c4db3d003d17102d957647f.setIcon(icon_983ae1a93728c48eb3b9fe5a250da025);
+            
+    
+            var marker_1860ee5bd9eeab6036b0f649527c110d = L.marker(
+                [31.634, 74.8723],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_8db39363c3406193b10ecfded1373ac7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0f60350742a6eb23f2314a13a03e24eb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bd55c0339bf276723bd457b63d1975fe = $(`<div id="html_bd55c0339bf276723bd457b63d1975fe" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @harpreet_singh<br>             <b style="color: #333;">Sentiment:</b> Positive<br>             <b style="color: #333;">Emotion:</b> happiness<br>             <b style="color: #333;">Category:</b> Public Safety<br>             <b style="color: #333;">Feedback:</b> New CCTV cameras in Amritsar improve safety.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-26 12:30:00         </div>         </div>`)[0];
+                popup_0f60350742a6eb23f2314a13a03e24eb.setContent(html_bd55c0339bf276723bd457b63d1975fe);
+            
+        
+
+        marker_1860ee5bd9eeab6036b0f649527c110d.bindPopup(popup_0f60350742a6eb23f2314a13a03e24eb)
+        ;
+
+        
+    
+    
+                marker_1860ee5bd9eeab6036b0f649527c110d.setIcon(icon_8db39363c3406193b10ecfded1373ac7);
+            
+    
+            var marker_84bb3ad8a7f45335c5e7095aa1358da1 = L.marker(
+                [12.2958, 76.6394],
+                {
+}
+            ).addTo(marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe);
+        
+    
+            var icon_6046e4c3f637ebf1afa9fa5b4ffbad0b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cbf1088da29de64d019d3ef9ec17caa7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b6ac127fd792a3716c2aeb826227d77e = $(`<div id="html_b6ac127fd792a3716c2aeb826227d77e" style="width: 100.0%; height: 100.0%;">         <div style="font-family: Arial; font-size: 12px; padding: 10px; max-width: 300px;">             <b style="color: #333;">User:</b> @lakshmi_prasad<br>             <b style="color: #333;">Sentiment:</b> Negative<br>             <b style="color: #333;">Emotion:</b> sadness<br>             <b style="color: #333;">Category:</b> Infrastructure<br>             <b style="color: #333;">Feedback:</b> Waterlogging in Mysore during monsoon.<br>             <b style="color: #333;">Timestamp:</b> 2025-04-25 15:45:00         </div>         </div>`)[0];
+                popup_cbf1088da29de64d019d3ef9ec17caa7.setContent(html_b6ac127fd792a3716c2aeb826227d77e);
+            
+        
+
+        marker_84bb3ad8a7f45335c5e7095aa1358da1.bindPopup(popup_cbf1088da29de64d019d3ef9ec17caa7)
+        ;
+
+        
+    
+    
+                marker_84bb3ad8a7f45335c5e7095aa1358da1.setIcon(icon_6046e4c3f637ebf1afa9fa5b4ffbad0b);
+            
+    
+            marker_cluster_1e8c1deeba834370e0cf6b8131f6c6fe.addTo(feature_group_6ceb7dc6454dd825e36a3055af19627e);
+        
+    
+            feature_group_6ceb7dc6454dd825e36a3055af19627e.addTo(map_26807062f58550e7c62d6c48f679ecfb);
+        
+    
+            var layer_control_ad2354a83445e1c08ce1b08f6a86fa6f_layers = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_a246479dfd65a4921bf4bcbdbbeaf8d5,
+                },
+                overlays :  {
+                    "Heatmap" : feature_group_4b71116bd1905162605e25c398cdbf21,
+                    "Markers" : feature_group_6ceb7dc6454dd825e36a3055af19627e,
+                },
+            };
+            let layer_control_ad2354a83445e1c08ce1b08f6a86fa6f = L.control.layers(
+                layer_control_ad2354a83445e1c08ce1b08f6a86fa6f_layers.base_layers,
+                layer_control_ad2354a83445e1c08ce1b08f6a86fa6f_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_26807062f58550e7c62d6c48f679ecfb);
+
+        
+</script>
+</html>

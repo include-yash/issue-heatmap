@@ -1,0 +1,233 @@
+[
+  {
+      "text": "The roads in Sector 16 are full of potholes! It's dangerous to drive.",
+      "user": "@rohit123",
+      "location": "Sector 16, Chandigarh",
+      "timestamp": "2025-04-25 14:33:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "No water supply in Sector 8 for 3 days. Please help!",
+      "user": "@anita_singh",
+      "location": "Sector 8, Noida",
+      "timestamp": "2025-04-25 11:20:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Garbage not collected in Sector 16 for over a week now!",
+      "user": "@clean_city",
+      "location": "Sector 16, Chandigarh",
+      "timestamp": "2025-04-25 09:10:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Street lights not working in Sector 7. It's quite dark at night!",
+      "user": "@vickygupta",
+      "location": "Sector 7, Gurgaon",
+      "timestamp": "2025-04-24 20:45:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Sector 16 roads are the worst! Potholes everywhere 😡",
+      "user": "@reena123",
+      "location": "Sector 16, Chandigarh",
+      "timestamp": "2025-04-25 15:01:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "The roads are much better in Sector 11, thank you for the recent repairs!",
+      "user": "@john_doe",
+      "location": "Sector 11, Jaipur",
+      "timestamp": "2025-04-25 16:30:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "Garbage collection was prompt in Sector 15 today. Appreciate the efforts.",
+      "user": "@amrit_singh",
+      "location": "Sector 15, Chandigarh",
+      "timestamp": "2025-04-25 17:10:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "The water supply has been stable in Sector 12, Faridabad. No issues so far.",
+      "user": "@sunil_sharma",
+      "location": "Sector 12, Faridabad",
+      "timestamp": "2025-04-25 13:50:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "Street lights need repair in Sector 5, Mumbai. It's unsafe at night.",
+      "user": "@manojkumar",
+      "location": "Sector 5, Mumbai",
+      "timestamp": "2025-04-24 19:15:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Had a great experience in Sector 10, Bangalore. Everything is well-maintained.",
+      "user": "@tina_rao",
+      "location": "Sector 10, Bangalore",
+      "timestamp": "2025-04-25 10:30:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "Very disappointed with the condition of roads in Sector 7, Pune. Full of potholes.",
+      "user": "@deepak_jain",
+      "location": "Sector 7, Pune",
+      "timestamp": "2025-04-24 18:50:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Lack of proper drainage in Sector 3, Ahmedabad. It floods easily during rains.",
+      "user": "@priya_patel",
+      "location": "Sector 3, Ahmedabad",
+      "timestamp": "2025-04-25 16:00:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Great improvement in cleanliness in Sector 8, Delhi. Keep it up!",
+      "user": "@deepak_verma",
+      "location": "Sector 8, Delhi",
+      "timestamp": "2025-04-25 12:15:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "Water supply has been erratic in Sector 4, Pune for the past few days.",
+      "user": "@karan_rao",
+      "location": "Sector 4, Pune",
+      "timestamp": "2025-04-25 14:00:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "The situation in Sector 14, Kolkata has improved. Streets are cleaner, and garbage is collected on time.",
+      "user": "@subha_sen",
+      "location": "Sector 14, Kolkata",
+      "timestamp": "2025-04-25 15:45:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "Sector 18, Indore faces constant water shortage. This is becoming a daily struggle.",
+      "user": "@sandeep_mishra",
+      "location": "Sector 18, Indore",
+      "timestamp": "2025-04-24 21:10:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "The situation in Sector 22, Lucknow has drastically improved. Water supply is regular now.",
+      "user": "@neha_sharma",
+      "location": "Sector 22, Lucknow",
+      "timestamp": "2025-04-25 17:20:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "Roads are flooded in Sector 6, Delhi due to the ongoing monsoon rains.",
+      "user": "@sumit_singh",
+      "location": "Sector 6, Delhi",
+      "timestamp": "2025-04-25 18:10:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "The roads in Sector 15, Pune are newly repaired and smooth now. Excellent work!",
+      "user": "@pradeep_bhagwat",
+      "location": "Sector 15, Pune",
+      "timestamp": "2025-04-25 19:00:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "The garbage collection service in Sector 11, Noida is delayed every week. It's becoming a nuisance.",
+      "user": "@raj_mishra",
+      "location": "Sector 11, Noida",
+      "timestamp": "2025-04-25 09:30:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Water shortage in Sector 3, Jaipur. Have been facing issues for a week now.",
+      "user": "@deepak_rao",
+      "location": "Sector 3, Jaipur",
+      "timestamp": "2025-04-24 21:30:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Potholes in Sector 7, Bangalore are finally being filled. Kudos to the local authorities!",
+      "user": "@ashok_singh",
+      "location": "Sector 7, Bangalore",
+      "timestamp": "2025-04-25 08:10:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "Traffic congestion in Sector 9, Mumbai is unbearable during peak hours.",
+      "user": "@shilpa_verma",
+      "location": "Sector 9, Mumbai",
+      "timestamp": "2025-04-25 10:00:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "The cleanliness in Sector 1, Kolkata has improved significantly. Thanks to the new waste management program.",
+      "user": "@gopal_singh",
+      "location": "Sector 1, Kolkata",
+      "timestamp": "2025-04-25 16:10:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "There is a severe traffic jam every morning in Sector 12, Chennai. Needs to be addressed urgently.",
+      "user": "@sundar_ramesh",
+      "location": "Sector 12, Chennai",
+      "timestamp": "2025-04-25 17:35:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Very happy with the improved road conditions in Sector 8, Hyderabad. Great job!",
+      "user": "@praveen_joshi",
+      "location": "Sector 8, Hyderabad",
+      "timestamp": "2025-04-25 14:45:00",
+      "sentiment": "positive"
+  },
+  {
+      "text": "There has been a continuous water shortage issue in Sector 4, Bangalore for a few weeks.",
+      "user": "@meera_shetty",
+      "location": "Sector 4, Bangalore",
+      "timestamp": "2025-04-24 22:05:00",
+      "sentiment": "negative"
+  },
+  {
+      "text": "Sector 10, Pune has excellent drainage and stormwater systems. No flooding even during heavy rains.",
+      "user": "@arun_singh",
+      "location": "Sector 10, Pune",
+      "timestamp": "2025-04-25 13:00:00",
+      "sentiment": "positive"
+  },
+  {
+    "text": "The Phalgam attack has left the people of Jammu and Kashmir in constant fear. We need stronger security measures!",
+    "user": "@kashmir_citizen1",
+    "location": "Srinagar, Jammu and Kashmir",
+    "timestamp": "2025-04-27 09:30:00",
+    "sentiment": "negative"
+},
+{
+    "text": "In the aftermath of the Phalgam attack, the military presence is overwhelming. The situation is getting worse!",
+    "user": "@kashmir_citizen2",
+    "location": "Pulwama, Jammu and Kashmir",
+    "timestamp": "2025-04-27 09:45:00",
+    "sentiment": "negative"
+},
+{
+    "text": "Phalgam's once peaceful environment is now overshadowed by fear and uncertainty. We feel unsafe in our own homes.",
+    "user": "@kashmir_citizen3",
+    "location": "Anantnag, Jammu and Kashmir",
+    "timestamp": "2025-04-27 10:00:00",
+    "sentiment": "negative"
+},
+{
+    "text": "The Phalgam incident has made daily life unbearable. Military checkpoints everywhere, and no sign of relief!",
+    "user": "@kashmir_citizen4",
+    "location": "Baramulla, Jammu and Kashmir",
+    "timestamp": "2025-04-27 10:15:00",
+    "sentiment": "negative"
+},
+{
+    "text": "The security situation in Phalgam and surrounding areas is spiraling out of control. We need urgent intervention from the authorities!",
+    "user": "@kashmir_citizen5",
+    "location": "Kupwara, Jammu and Kashmir",
+    "timestamp": "2025-04-27 10:30:00",
+    "sentiment": "negative"
+}
+]

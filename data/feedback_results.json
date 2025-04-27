@@ -1,0 +1,47 @@
+[
+    {
+        "text": "There are huge potholes in Sector 16, it's really dangerous!",
+        "user": "@rohit123",
+        "location": "Sector 16",
+        "timestamp": "2025-04-25 14:33:00",
+        "sentiment": "Negative",
+        "emotion": "fear",
+        "category": "Infrastructure"
+    },
+    {
+        "text": "No water supply in Sector 8 for 3 days. Please help!",
+        "user": "@anita_singh",
+        "location": "Sector 8",
+        "timestamp": "2025-04-25 11:20:00",
+        "sentiment": "Positive",
+        "emotion": "sadness",
+        "category": "Health"
+    },
+    {
+        "text": "Garbage not collected in Sector 16 for over a week now!",
+        "user": "@clean_city",
+        "location": "Sector 16",
+        "timestamp": "2025-04-25 09:10:00",
+        "sentiment": "Neutral",
+        "emotion": "disgust",
+        "category": "Environment"
+    },
+    {
+        "text": "Street lights not working in Sector 7.",
+        "user": "@vickygupta",
+        "location": "Sector 7",
+        "timestamp": "2025-04-24 20:45:00",
+        "sentiment": "Neutral",
+        "emotion": "sadness",
+        "category": "Infrastructure"
+    },
+    {
+        "text": "Sector 16 roads are the worst! Potholes everywhere \u00f0\u0178\u02dc\u00a1",
+        "user": "@reena123",
+        "location": "Sector 16",
+        "timestamp": "2025-04-25 15:01:00",
+        "sentiment": "Negative",
+        "emotion": "disgust",
+        "category": "Infrastructure"
+    }
+]
